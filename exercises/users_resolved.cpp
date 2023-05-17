@@ -1,4 +1,4 @@
-// C++ workshop 
+// C++ workshop
 // Try: https://godbolt.org/z/dnhqoY4PP
 
 // Part I:
@@ -125,7 +125,7 @@ int main() {
     // The following will point to the first element in the map
     // std::min_element(users_age.cbegin(), users_age.cend());
 
-    std::cout << "\nThe youngest user is " << (*min_elem_it).first
+    std::cout << "\nI.1 The youngest user is " << (*min_elem_it).first
               << " with age " << (*min_elem_it).second << std::endl;
 
     //// I.2 Find one of the oldest users
@@ -134,10 +134,11 @@ int main() {
                          [](const auto &user_a, const auto &user_b) {
                              return user_a.second < user_b.second;
                          });
-    std::cout << "One of the oldest user is " << (*max_elem_it).first
+    std::cout << "\nI.2 One of the oldest user is " << (*max_elem_it).first
               << " with age " << (*max_elem_it).second << std::endl;
 
     //// I.3 Find all of the adult users (just printing)
+    std::cout << "\nI.3 Adult users only: \n";
     //// In a for loop
     for (const auto &usr : users_age) {
         std::cout << usr.first << ":" << usr.second << ",";
@@ -154,7 +155,7 @@ int main() {
                  std::inserter(adult_users, adult_users.end()),
                  [](const auto &usr) { return usr.second >= 18; });
 
-    std::cout << "Adult users only: ";
+    std::cout << "\nI.3 Adult users only: ";
     print_elements(adult_users);
 
     // [Warining] Without std::inserter, error: use of deleted function pair&
@@ -164,7 +165,8 @@ int main() {
 
     //// I.4 Add new user to the map
     users_age.emplace("Kate", 27);
-    print_elements(adult_users);
+    std::cout << "\nI.4 Users map with new user:";
+    print_elements(users_age);
 
     //// II.2 Create vector of users initialized with info from "users_age" map
     std::vector<User> users;
@@ -181,13 +183,15 @@ int main() {
                    });
     print_elements(users);
 
-    std::cout << "\nUsers map:";
+    std::cout << "\nII.2 Users map:";
     print_elements(users_age);
-    std::cout << "\nUsers copied to vector:";
+    std::cout << "\nII.2 Users copied to vector:";
     print_elements(users);
 
     //// III.4 Add name and age of your friend to the users
     users.emplace_back("Tom", 30);
+    std::cout << "\nIII.4 Users vector with new user:";
+    print_elements(users);
 
     //// IV.2 Modify the vector of users and update the "followers_count" of
     /// each user
@@ -195,7 +199,7 @@ int main() {
         usr.set_followers_count((100 + usr.get_age()) * 10);
     });
 
-    std::cout << "\nUsers after followers init:";
+    std::cout << "\nIV.2 Users after followers init:";
     print_elements(users);
 
     //// IV.3. Find the most popular user (the highest number of followers)
@@ -204,25 +208,25 @@ int main() {
         [](const auto &user_a, const auto &user_b) {
             return user_a.get_followers_count() < user_b.get_followers_count();
         });
-    std::cout << "\nThe most popular user is " << (*most_pupular_it);
+    std::cout << "\nIV.3 The most popular user is " << (*most_pupular_it);
 
     //// IV.3. Find the most popular user (the highest number of followers)
     //// By overloaded operator< in the User class
     most_pupular_it = std::max_element(users.cbegin(), users.cend());
-    std::cout << "\nThe most popular user is " << (*most_pupular_it);
+    std::cout << "\nIV.3 The most popular user is " << (*most_pupular_it);
 
     //// IV.4 Sort the vector of by number of followers (descending)
     std::sort(
         users.begin(), users.end(), [](const auto &usr_a, const auto &usr_b) {
             return usr_a.get_followers_count() > usr_b.get_followers_count();
         });
-    std::cout << "\nUsers sorted by number of followers (descending): ";
+    std::cout << "\n\nIV.4 Users sorted by number of followers (descending): ";
     print_elements(users);
 
-    //// IV.4 Sort the vector of by number of followers (descending)
+    //// IV.4 Sort the vector of by number of followers (ascending)
     //// By overloaded operator< in the User class
     std::sort(users.begin(), users.end());
-    std::cout << "\nUsers sorted by number of followers (descending): ";
+    std::cout << "\nIV.4 Users sorted by number of followers (ascending): ";
     print_elements(users);
 
     //// IV.4 Sort the vector of by number of followers (descending)
@@ -230,6 +234,6 @@ int main() {
     //// and function object greater (C++14)
     std::sort(users.begin(), users.end(), std::greater<>());
 
-    std::cout << "\nUsers sorted by number of followers ";
+    std::cout << "\nIV.4 Users sorted by number of followers (descending) ";
     print_elements(users);
 }

@@ -42,8 +42,32 @@
 
 #include <cstdint>
 #include <iostream>
+#include <map>
 
+template <typename T>
+void print_elements(const T& container) {
+    std::cout << "\n{";
+    for (const auto& element : container) {
+        std::cout << element << ",";
+    }
+    std::cout << "}" << std::endl;
+}
+
+template <typename T_KEY, typename T_VALUE>
+void print_elements(const std::map<T_KEY, T_VALUE>& container) {
+    std::cout << "\n{";
+    for (const auto& element : container) {
+        std::cout << "{" << element.first << ", " << element.second << "},";
+    }
+    std::cout << "}" << std::endl;
+}
 
 int main() {
-    std::cout << "Hello C++" << std::endl;
+    std::map<std::string, uint32_t> users_age{{"BruNo", 24},
+                                              {"Ann@", 15},
+                                              {"dian_a", 17},
+                                              {"1gor", 24},
+                                              {"Cloe", 18}};
+    std::cout << "Users age map: ";
+    print_elements(users_age);
 }

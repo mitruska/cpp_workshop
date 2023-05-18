@@ -1,5 +1,5 @@
 // C++ workshop
-// Try: https://godbolt.org/z/dnhqoY4PP
+// Try: https://godbolt.org/z/1f44e3M87
 
 // Part I:
 // For the "users_age" map:
@@ -51,10 +51,10 @@
 //// II.1 Create class "User"
 class User {
    public:
-    User(const std::string &name, uint32_t age, uint32_t followers_count = 0)
+    User(const std::string& name, uint32_t age, uint32_t followers_count = 0)
         : name_(name), age_(age), followers_count_(followers_count) {}
 
-    User(const std::pair<const std::string, uint32_t> &name_age)
+    User(const std::pair<const std::string, uint32_t>& name_age)
         : name_(name_age.first), age_(name_age.second), followers_count_(0) {}
 
     std::string get_name() const { return name_; }
@@ -66,15 +66,15 @@ class User {
     }
 
     // Overloaded operators useful for sort or looking for min/max
-    bool operator<(const User &usr) const {
+    bool operator<(const User& usr) const {
         return followers_count_ < usr.get_followers_count();
     }
-    bool operator>(const User &usr) const {
+    bool operator>(const User& usr) const {
         return followers_count_ > usr.get_followers_count();
     }
 
     //// III.6 Overloaded ostream operator to print the object
-    friend std::ostream &operator<<(std::ostream &out, const User &usr) {
+    friend std::ostream& operator<<(std::ostream& out, const User& usr) {
         out << "{Name: " << usr.name_ << ", ";
         out << "Age: " << usr.age_ << ", ";
         out << "Followers: " << usr.followers_count_ << "}";
@@ -88,18 +88,18 @@ class User {
 };
 
 template <typename T>
-void print_elements(const T &container) {
+void print_elements(const T& container) {
     std::cout << "\n{";
-    for (const auto &element : container) {
+    for (const auto& element : container) {
         std::cout << element << ",";
     }
     std::cout << "}" << std::endl;
 }
 
 template <typename T_KEY, typename T_VALUE>
-void print_elements(const std::map<T_KEY, T_VALUE> &container) {
+void print_elements(const std::map<T_KEY, T_VALUE>& container) {
     std::cout << "\n{";
-    for (const auto &element : container) {
+    for (const auto& element : container) {
         std::cout << "{" << element.first << ", " << element.second << "},";
     }
     std::cout << "}" << std::endl;
@@ -117,7 +117,7 @@ int main() {
     //// I.1 Find the youngest user
     const auto min_elem_it =
         std::min_element(users_age.cbegin(), users_age.cend(),
-                         [](const auto &user_a, const auto &user_b) {
+                         [](const auto& user_a, const auto& user_b) {
                              return user_a.second < user_b.second;
                          });
 
@@ -131,7 +131,7 @@ int main() {
     //// I.2 Find one of the oldest users
     const auto max_elem_it =
         std::max_element(users_age.cbegin(), users_age.cend(),
-                         [](const auto &user_a, const auto &user_b) {
+                         [](const auto& user_a, const auto& user_b) {
                              return user_a.second < user_b.second;
                          });
     std::cout << "\nI.2 One of the oldest user is " << (*max_elem_it).first
@@ -140,11 +140,11 @@ int main() {
     //// I.3 Find all of the adult users (just printing)
     std::cout << "\nI.3 Adult users only: \n";
     //// In a for loop
-    for (const auto &usr : users_age) {
+    for (const auto& usr : users_age) {
         std::cout << usr.first << ":" << usr.second << ",";
     }
     //// Or with std::for_each
-    std::for_each(users_age.begin(), users_age.end(), [](const auto &usr) {
+    std::for_each(users_age.begin(), users_age.end(), [](const auto& usr) {
         if (usr.second >= 18)
             std::cout << usr.first << ":" << usr.second << ",";
     });
@@ -153,7 +153,7 @@ int main() {
     std::map<std::string, uint32_t> adult_users;
     std::copy_if(users_age.begin(), users_age.end(),
                  std::inserter(adult_users, adult_users.end()),
-                 [](const auto &usr) { return usr.second >= 18; });
+                 [](const auto& usr) { return usr.second >= 18; });
 
     std::cout << "\nI.3 Adult users only: ";
     print_elements(adult_users);
@@ -178,7 +178,7 @@ int main() {
 
     // std::transform can use copy logic from lambda
     std::transform(users_age.cbegin(), users_age.cend(),
-                   std::back_inserter(users), [](const auto &usr) {
+                   std::back_inserter(users), [](const auto& usr) {
                        return User{usr.first, usr.second};
                    });
     print_elements(users);
@@ -195,7 +195,7 @@ int main() {
 
     //// IV.2 Modify the vector of users and update the "followers_count" of
     /// each user
-    std::for_each(users.begin(), users.end(), [](auto &usr) {
+    std::for_each(users.begin(), users.end(), [](auto& usr) {
         usr.set_followers_count((100 + usr.get_age()) * 10);
     });
 
@@ -205,7 +205,7 @@ int main() {
     //// IV.3. Find the most popular user (the highest number of followers)
     auto most_pupular_it = std::max_element(
         users.cbegin(), users.cend(),
-        [](const auto &user_a, const auto &user_b) {
+        [](const auto& user_a, const auto& user_b) {
             return user_a.get_followers_count() < user_b.get_followers_count();
         });
     std::cout << "\nIV.3 The most popular user is " << (*most_pupular_it);
@@ -217,7 +217,7 @@ int main() {
 
     //// IV.4 Sort the vector of by number of followers (descending)
     std::sort(
-        users.begin(), users.end(), [](const auto &usr_a, const auto &usr_b) {
+        users.begin(), users.end(), [](const auto& usr_a, const auto& usr_b) {
             return usr_a.get_followers_count() > usr_b.get_followers_count();
         });
     std::cout << "\n\nIV.4 Users sorted by number of followers (descending): ";
